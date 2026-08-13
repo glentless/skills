@@ -4,6 +4,7 @@ description: Use whenever Vietnamese text is written, reviewed, translated, or g
 version: 2.0.0
 user-invocable: true
 argument-hint: "[write|review|audit|install] [target files or copy]"
+license: MIT
 ---
 
 # Vietnamese that sounds Vietnamese

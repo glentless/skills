@@ -119,3 +119,10 @@ the actual screens.
 
 Not Vietnamese-only in spirit — the same shape works for any language where
 politeness and address are grammatical rather than optional.
+
+---
+
+## License
+
+[MIT](LICENSE). Copy a skill into your own project, change the rules, ship it —
+attribution in the file is enough.
