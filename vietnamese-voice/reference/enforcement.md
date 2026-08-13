@@ -1,125 +1,198 @@
-# Installing the copy guard
+# Installing the guard
 
-The guard is a test that fails the build when a known tell appears in
-user-facing Vietnamese. It is a floor, not a standard — it cannot hear rhythm.
-Its job is to stop the regressions that a human reviewer will not notice in six
-months.
+The guard fails a build when a known tell appears in user-facing Vietnamese. It
+is a floor, not a standard — it cannot hear rhythm. Its job is to stop the
+regressions a human reviewer will not notice in six months.
 
----
+Three harnesses, one set of rules. `rules/rules.json` and `rules/profiles/*.json`
+are shared by all of them, so a rule is written once.
 
-## Prerequisite: strings must be centralised
-
-The guard walks one module and checks every string it finds. If copy is
-hardcoded in components, the guard sees a fraction of it and reports green,
-which is worse than having no guard at all.
-
-Before installing, check:
-
-```
-rg '"[^"]*[àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ][^"]*"' src --glob '!**/messages/**' --glob '!**/*.test.*'
-```
-
-Hits mean Vietnamese living outside the catalogue. Move it in first. If that is
-a big job, say so to the user and do it as its own change — do not install a
-guard over copy it cannot see.
-
-The catalogue module should export plain strings and functions returning
-strings, grouped by surface:
-
-```ts
-export const auth = {
-  signIn: "Đăng nhập",
-  emailWrong: "Email này chưa đúng",
-  greeting: (name: string) => `Chào ${name}`,
-};
-```
+| Harness | Use when |
+| --- | --- |
+| `harness/check-vietnamese.mjs` | Anything. Reads JSON, ARB, PO, YAML, `.strings`, Android XML. No dependencies. |
+| `harness/voice.test.ts` | The project is JS/TS and strings live in a module rather than a data file. |
+| `harness/check_vietnamese.py` | Django/Flask, and you would rather not add Node. Reads JSON, ARB, PO, YAML. |
 
 ---
 
-## Install
+## Prerequisite: the strings must be reachable
 
-1. Copy `assets/voice.test.ts` next to the catalogue — e.g.
-   `src/messages/voice.test.ts`.
+The guard checks what it can read. If copy is hardcoded in components, it sees a
+fraction and reports green, which is worse than no guard because it reads as
+coverage.
 
-2. Fix the import at the top. If copy spans several modules:
+Before installing, sweep for Vietnamese living outside the catalogue:
 
-   ```ts
-   import * as auth from "./auth";
-   import * as exams from "./exams";
-   const messages = { auth, exams };
-   ```
+```bash
+rg '"[^"]*[àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ][^"]*"' \
+  src --glob '!**/messages/**' --glob '!**/locales/**' --glob '!**/*.test.*'
+```
 
-3. Set the address rules. The last block in `RULES` is marked
-   *project-specific*. Delete the `bạn` rule only if the audience is genuinely
-   a broad anonymous public. Delete the bare-`cô` rule if the product never
-   addresses a teacher. Add rules for whatever the project's VOICE.md forbids.
-
-4. Set the floor. `expect(strings.size).toBeGreaterThan(N)` guards the guard.
-   Run the file once, read the actual count off a failing assertion or a
-   `console.log`, and set `N` a little under it.
-
-5. Run it. Fix every offender by rewriting the string, not by adding an
-   exemption. `allow` exists for the rare real case — a legal notice, a quoted
-   third-party name — and every entry needs a comment saying why.
-
-6. Add a row to the project's VOICE.md for each rule you added. A ban with no
-   documented reason gets deleted the first time it is inconvenient.
+Hits mean copy the guard cannot see. Move it into the catalogue first. If that
+is a big job, say so and do it as its own change — do not install a guard over
+copy it cannot read.
 
 ---
 
-## How each rule is shaped
+## 1. Pick a profile
 
-```ts
+```bash
+node harness/check-vietnamese.mjs --list-profiles
+```
+
+```
+b2b-enterprise       formal   Enterprise SaaS, admin consoles, ERP…
+banking-finance      formal   Banks, e-wallets, lending, insurance…
+consumer-saas        warm     The default profile…
+ecommerce-retail     casual   Marketplaces, D2C shops, food delivery…
+education            warm     Schools, tutoring centres, LMS…
+gaming-social        casual   Games, social apps, community products…
+government-public    formal   Public services, e-government, utilities…
+healthcare           formal   Hospitals, clinics, booking, telemedicine…
+```
+
+Take the closest one. If none fits, copy `consumer-saas.json`, rename it, and
+narrow it. See [registers.md](registers.md) for choosing the register.
+
+## 2. Run it
+
+```bash
+node harness/check-vietnamese.mjs --profile=education src/messages/
+python harness/check_vietnamese.py --profile=government-public locale/vi/
+```
+
+Exit codes: `0` clean, `1` errors (or warnings under `--strict`), `2` misuse —
+including "read 0 strings", which is deliberately a failure rather than a pass.
+
+## 3. Tune the profile, not the strings
+
+Every finding is one of three things:
+
+**A real tell** — fix the string. Most findings.
+
+**Correct for your industry** — add the rule id to the profile's `disable`, with
+the reason in `notes`. A bank disabling `vui-long` is right. A consumer app
+disabling it is giving up.
+
+**A false positive on one string** — add the exact string to the profile's
+`allow`, keyed by rule id, with the reason beside it:
+
+```jsonc
 {
-  why: "…",       // English, for whoever's test just went red
-  instead: "…",   // what to write, concretely
-  pattern: /…/iu, // the tell
-  ignoring: /…/giu, // optional: correct longer form stripped first
-  allow: ["…"],   // optional: exact strings exempted, each with a comment
+  "allow": {
+    "english-ui-leftover": [
+      "Zalo Official Account"   // product name, not untranslated copy
+    ]
+  }
 }
 ```
 
-Two things about the patterns:
+An exemption list nobody justifies grows until the rule means nothing.
 
-- **Word-boundary rules need the `\p{L}` dance.** `\b` does not work on
-  Vietnamese diacritics in every engine. Use
-  `/(^|[^\p{L}])word([^\p{L}]|$)/u` — the `u` flag is required.
-- **`ignoring` exists because correct longer forms contain shorter banned
-  ones.** `thầy cô` contains `cô`. Strip the good form before testing the bad.
+## 4. Wire it into CI
 
----
+```yaml
+- name: Vietnamese copy
+  run: node skills/vietnamese-voice/harness/check-vietnamese.mjs
+       --profile=education --strict src/messages/
+```
 
-## Not using vitest?
-
-The logic is fifty lines and carries no vitest specifics beyond `describe` /
-`it` / `expect`. Adapting:
-
-- **Jest** — works as written.
-- **node:test** — swap `expect(x).toEqual([])` for
-  `assert.deepEqual(x, [])` and `describe`/`it` from `node:test`.
-- **A lint rule** — for hardcoded strings in components, an ESLint rule
-  matching the same patterns against JSX text catches them at the point of
-  writing. Use both: the lint rule for authoring, the test for the catalogue.
-- **Not JavaScript** — the guard is a regex list over a string table. Port the
-  `RULES` array verbatim into whatever the project's test framework is; the
-  patterns are the asset, the harness is not.
+`--strict` makes warnings fail too. Worth turning on once the catalogue is clean
+— title case and number formats are exactly the things that creep back.
 
 ---
 
-## When an LLM writes the Vietnamese
+## The vitest harness
 
-Regex cannot check tone in generated output. If a model produces user-facing
-Vietnamese:
+Use this when strings are a JS/TS module rather than a data file, because it can
+call message *functions* and check what they produce. A template that only goes
+wrong at `n = 0` is invisible to a file-based check.
 
-1. Put the address rules and the softener rule in the system prompt, not just
-   in a doc. Name the banned words explicitly.
-2. Name the collision risks. If the assistant calls itself `em`, the prompt
-   must say that the people it talks about are `học sinh` / `các em`, never a
-   bare `em`.
-3. Forbid particles on labels, button names, and numbered steps in the prompt —
-   models over-apply warmth once you ask for it.
-4. **Add a live test against the real API** asserting the warmth is present —
-   e.g. that a sample answer contains at least one of `nhé|nha|ạ`, and that a
-   step-by-step answer contains none. A model drifting back to flat
-   documentation prose is invisible otherwise. Keep it in a separate
-   `*.live.test.ts` so the normal suite stays offline.
+1. Copy `harness/` and `rules/` into the project.
+2. Put `harness/voice.test.ts` wherever the test runner will find it.
+3. Edit the three marked lines at the top: the import, the profile, the floor.
+
+The import is the part that varies by setup:
+
+```ts
+// Bundler-style resolution (Next.js, most Vite setups)
+import * as messages from "../../src/messages";
+
+// Strict ESM may need the explicit file
+import * as messages from "../../src/messages/index.ts";
+
+// Copy spread across modules — combine them
+import * as auth from "../../src/messages/auth";
+import * as exams from "../../src/messages/exams";
+const messages = { auth, exams };
+```
+
+4. Set `MINIMUM_STRINGS` near the real count. This guards the guard: if the
+   walker stops finding the catalogue, every rule would otherwise pass while
+   checking nothing.
+
+Errors fail the test. Warnings print and pass — failing a build on a heuristic
+trains people to add exemptions until the rule means nothing. Use the CLI with
+`--strict` in CI if you want warnings enforced; that is the right place to decide
+it.
+
+Vitest only prints console output for **failing** tests by default, so warnings
+show up under `--reporter=verbose`.
+
+---
+
+## Writing a rule
+
+```jsonc
+{
+  "id": "kebab-case-id",
+  "kind": "string",              // "string" | "titlecase" | "corpus"
+  "registers": ["warm", "casual"],
+  "severity": "error",           // "error" | "warn"
+  "severityByRegister": { "formal": "warn" },   // optional
+  "pattern": "hệ thống",
+  "flags": "iu",                 // never "g" — it breaks repeated .test()
+  "ignoring": "thầy cô",         // optional: correct longer form, stripped first
+  "unless": "không bao giờ",     // optional: context that flips the meaning
+  "why": "…",                    // English, for whoever's build just went red
+  "instead": "…",                // concretely what to write
+  "falsePositives": "…"          // optional, but write it if you know of any
+}
+```
+
+Four things that bite:
+
+- **Word boundaries.** `\b` does not work reliably on Vietnamese diacritics. Use
+  `(^|[^\p{L}])word([^\p{L}]|$)` with the `u` flag.
+- **`ignoring` exists because correct longer forms contain banned shorter ones.**
+  `thầy cô` contains `cô`. Strip the good form before testing for the bad.
+- **`unless` exists because negation is invisible to a forward pattern.** A
+  bank's fraud warning contains the exact phrase its fraud rule looks for. Do not
+  reach for variable-length lookbehind — JavaScript allows it, Python does not,
+  and the rules have to run in both.
+- **Open vs closed syllables** matter for orthography patterns. `hoà`/`hòa` is a
+  real choice; `toàn` has only one spelling. Anchor with `(?![\p{L}])` or every
+  `toàn diện` in the catalogue turns into a finding.
+
+Every new rule needs a row in the project's `VOICE.md`.
+
+---
+
+## Porting to another stack
+
+The engine is about 150 lines over a JSON rule list. `check_vietnamese.py` is the
+reference for what a port has to handle:
+
+- **Normalise to NFC** — the text *and* the patterns. Without it the guard
+  silently passes decomposed input, which is most of the reason to have a guard.
+  See §7 of [mechanics.md](mechanics.md).
+- **Translate `\p{L}`** if the target engine lacks Unicode property escapes.
+  Python's `re`: `[^\W\d_]`.
+- **Never compile a `g` pattern for repeated `.test()`** — `lastIndex` carries
+  between calls and it starts skipping matches.
+- **Skip metadata.** The PO header is not copy, and ARB `@key` objects are notes
+  to translators. Checking them reports gettext's punctuation as a finding.
+
+For catching hardcoded strings at authoring time rather than in CI, an ESLint
+rule matching the same patterns against JSX text is a good companion. Use both:
+lint while writing, guard on the catalogue.

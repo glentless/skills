@@ -1,0 +1,44 @@
+{
+  "name": "government-public",
+  "register": "formal",
+  "appliesTo": "Public services, e-government portals, utilities, licensing, tax, public transport, universities' administrative side. Terminology is frequently fixed by the document it comes from.",
+  "address": {
+    "citizen": "công dân in official text; ông/bà on forms; anh/chị in guidance and help screens.",
+    "self": "Cơ quan / đơn vị / the office's own name. Not `bên mình`.",
+    "avoid": ["bạn", "nhé", "nha"]
+  },
+  "properNouns": ["Việt Nam", "Cổng Dịch vụ công Quốc gia", "VNeID", "CCCD", "CMND", "UBND", "Bộ", "Sở"],
+  "disable": ["he-thong", "chung-toi", "vui-long", "du-lieu", "dinh-dang", "quy-honorific", "officialese-passive", "duong-dan"],
+  "glossary": [
+    {
+      "right": "căn cước công dân",
+      "wrong": ["thẻ căn cước cá nhân", "chứng minh nhân dân"],
+      "why": "CCCD replaced CMND. Using the old term on a live form sends people to the wrong queue."
+    },
+    {
+      "right": "hồ sơ",
+      "wrong": ["đơn từ", "bộ giấy tờ"],
+      "why": "The word every procedure document uses."
+    },
+    {
+      "right": "thủ tục hành chính",
+      "wrong": ["quy trình hành chính"],
+      "why": "Statutory phrase."
+    }
+  ],
+  "extraRules": [
+    {
+      "id": "unexplained-abbreviation",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "warn",
+      "pattern": "(^|[^\\p{L}])(BHXH|BHYT|CCCD|CMND|TTHC|UBND|GPLX|MST)([^\\p{L}]|$)",
+      "flags": "u",
+      "why": "Administrative abbreviations are transparent to the office and opaque to the citizen. On a first-use screen they stop the task.",
+      "instead": "spell it out on first use, abbreviate afterwards — `bảo hiểm xã hội (BHXH)`",
+      "tags": ["clarity"],
+      "falsePositives": "Later uses in the same flow are fine. Allow those strings explicitly."
+    }
+  ],
+  "notes": "Officialese is permitted here because the source documents are official — but only where it mirrors a real legal phrase. Guidance and error messages should still be plain: the citizen has to complete a task, and a passive construction on an error screen is where people give up. Where a statute prescribes wording, quote it and do not improve it."
+}

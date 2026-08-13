@@ -1,0 +1,14 @@
+{
+  "name": "consumer-saas",
+  "register": "warm",
+  "appliesTo": "The default profile. Small-business tools, productivity apps, clinics' booking pages, D2C services, anything where one competent person is talking to another. Start here if no other profile fits, then copy it and narrow it.",
+  "address": {
+    "user": "anh/chị, or the role if the product has one — chủ shop, chủ quán, giáo viên. Pick one and never drift.",
+    "self": "bên mình, the product name, or no subject at all. Dropping the subject is usually best.",
+    "avoid": ["bạn", "chúng tôi", "quý khách"]
+  },
+  "properNouns": ["Việt Nam", "Zalo", "Google", "Facebook", "Word", "Excel", "PDF"],
+  "glossary": [],
+  "extraRules": [],
+  "notes": "This is the register the whole skill was written out of, so nothing is disabled. Softeners on failures, waits, requests and refusals — nowhere else. Labels, buttons, table headers, status chips and field validation stay bare. One idea per string."
+}

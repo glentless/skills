@@ -1,0 +1,50 @@
+{
+  "name": "gaming-social",
+  "register": "casual",
+  "appliesTo": "Games, social apps, community and creator products, anything whose users are mostly under thirty. The failure mode here is the opposite of the usual one: not stiff translation, but corporate politeness nobody asked for.",
+  "address": {
+    "player": "bạn, or the in-game role — người chơi, chiến binh, chủ tướng. Second person plural: các bạn.",
+    "self": "mình, or the game's own name. Never chúng tôi outside the legal pages.",
+    "avoid": ["quý khách", "thầy cô", "kính gửi"]
+  },
+  "properNouns": ["Việt Nam", "Discord", "TikTok", "Facebook", "Zalo", "Steam", "VNG"],
+  "disable": ["ban-pronoun", "slang-in-formal"],
+  "glossary": [
+    {
+      "right": "nhiệm vụ",
+      "wrong": ["nhiệm vụ được giao", "công tác"],
+      "why": "Quest. The long forms read like a workplace."
+    },
+    {
+      "right": "phần thưởng",
+      "wrong": ["quà tặng tri ân"],
+      "why": "Marketing-speak in a reward popup."
+    }
+  ],
+  "extraRules": [
+    {
+      "id": "loot-box-odds",
+      "kind": "string",
+      "registers": ["casual"],
+      "severity": "warn",
+      "pattern": "(rương|hộp|vòng quay|gacha|mở thưởng)",
+      "flags": "iu",
+      "why": "Randomised-reward copy needs the real odds beside it. Vietnamese players read these screens carefully and publishers get held to what they printed.",
+      "instead": "state the drop rate as a percentage next to the mechanic, in the same string or the one beneath it",
+      "tags": ["compliance", "honesty"]
+    },
+    {
+      "id": "borrowed-english-verb",
+      "kind": "string",
+      "registers": ["casual"],
+      "severity": "warn",
+      "pattern": "(^|[^\\p{L}])(claim|redeem|upgrade|unlock|equip|craft)([^\\p{L}]|$)",
+      "flags": "iu",
+      "why": "Some English is native to Vietnamese gaming speech and some is an untranslated button. These six usually mean the latter.",
+      "instead": "nhận, đổi, nâng cấp, mở khoá, trang bị, chế tạo",
+      "tags": ["coverage"],
+      "falsePositives": "Genuine community loanwords vary by game. Disable this rule if your players actually talk this way."
+    }
+  ],
+  "notes": "Particles are plentiful and correct here — nhé, nha, nhen, luôn, á. Slang is fine and dates fast, so keep it out of strings you cannot change quickly. Age-rating and payment screens step up to the warm register: a parent may be reading."
+}

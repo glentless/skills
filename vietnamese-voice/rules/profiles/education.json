@@ -1,0 +1,48 @@
+{
+  "name": "education",
+  "register": "warm",
+  "appliesTo": "Schools, tutoring centres, extra classes, LMS, edtech. Teachers, students and parents all read the same product and must not be addressed the same way.",
+  "address": {
+    "teacher": "thầy cô — covers either gender. Where a neutral noun reads better: giáo viên.",
+    "student": "em, các em",
+    "parent": "anh/chị. Their child is con, never em — em is what the teacher calls them.",
+    "self": "bên mình, the product name, or no subject",
+    "avoid": ["bạn", "a bare cô", "quý thầy cô", "quý phụ huynh"]
+  },
+  "properNouns": ["Việt Nam", "Zalo", "Word", "Excel", "Google", "Facebook"],
+  "extraRules": [
+    {
+      "id": "bare-co",
+      "kind": "string",
+      "registers": ["warm"],
+      "severity": "error",
+      "pattern": "(^|[^\\p{L}])cô([^\\p{L}]|$)",
+      "flags": "iu",
+      "ignoring": "thầy cô",
+      "ignoringFlags": "giu",
+      "caseNote": "Case-insensitive on purpose: `cô` opens a sentence as often as it sits inside one, and a case-sensitive pattern misses every `Cô …` — which is exactly where the wrong form of address is most visible.",
+      "why": "A bare `cô` addresses a woman, which excludes half the teachers using the product. It regresses easily when the first user happens to be female.",
+      "instead": "thầy cô, or giáo viên where a neutral noun reads better",
+      "tags": ["address"]
+    },
+    {
+      "id": "verdict-on-a-child",
+      "kind": "string",
+      "registers": ["warm"],
+      "severity": "warn",
+      "pattern": "(^|[^\\p{L}])(yếu|kém|dốt|tệ|lười)([^\\p{L}]|$)",
+      "flags": "iu",
+      "why": "On a parent-facing report this reads as a verdict on their child, and the report is the only surface a stranger judges the product by.",
+      "instead": "nên luyện thêm, chưa vững phần này — describe the gap, not the child",
+      "tags": ["dignity"]
+    }
+  ],
+  "glossary": [
+    {
+      "right": "tách đề",
+      "wrong": ["bóc tách đề", "phân tách đề"],
+      "why": "One word per operation. Two words for the same thing reads as two people wrote the app."
+    }
+  ],
+  "notes": "Softeners on failures and requests only. Field errors, buttons and status chips stay bare. The student runtime is the shortest copy in the product — a teenager on a phone, mid-test, and submitting a test is not an achievement."
+}

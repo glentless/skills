@@ -1,5 +1,15 @@
 # What makes Vietnamese read as translated
 
+> **Read [registers.md](registers.md) first.** Everything below assumes a
+> register is already set. Most of it is written from `warm`, the default, where
+> translationese does the most damage. Where `formal` and `casual` differ it says
+> so — and where a rule flips outright, the profile in `rules/profiles/` is the
+> authority, not this file. `Vui lòng` is banned here and correct in a bank.
+>
+> For title case, number and date formats, classifiers, text expansion and
+> Unicode normalisation, see [mechanics.md](mechanics.md). Those are the same in
+> every register.
+
 Vietnamese and English put the human in different places.
 
 English UI copy is happy to be subject-less and abstract — *"An error
@@ -28,9 +38,10 @@ it out loud. Vietnamese says what broke.
 ### A system as the subject
 
 *"Hệ thống sẽ xử lý file"* is "the system will process the file" wearing a
-Vietnamese coat. `Hệ thống` is banned in user-facing copy. Three ways out:
+Vietnamese coat. In `warm` and `casual`, `hệ thống` is banned — in `formal` it
+is the plain right word, and the rule is off. Three ways out:
 
-1. Name the product: *"Mầm Class đọc file"*
+1. Name the product: *"<Tên sản phẩm> đọc file"*
 2. Use `máy` — what people actually say about a computer doing something:
    *"máy chấm"*, *"máy đọc"*
 3. Drop the subject entirely: *"Đang đọc file"*
@@ -58,22 +69,43 @@ Vietnamese has no neutral "you". Pick per reader, and be consistent.
 | Teacher | `thầy cô` | `bạn`, a bare `cô`, `quý thầy cô` |
 | Student / young person | `em`, `các em` | `bạn`, `các bạn` |
 | Parent | `anh/chị`; their child is `con` | `quý phụ huynh`, the child as `em` |
+| Patient | `anh/chị`; older: `cô/chú`, `bác` | `bạn` |
 | Older customer | `cô/chú`, `anh/chị` | `bạn` |
-| Broad anonymous public | `bạn` (only here) | — |
-| The product itself | `bên mình`, product name, or no subject | `chúng tôi`, `hệ thống` |
+| Bank / insurance customer | `Quý khách` | `bạn`, `mình` |
+| Citizen, on a public service | `công dân`, `ông/bà` on forms | `bạn` |
+| Client company (B2B) | `Quý công ty`, `anh/chị` | `bạn` |
+| Shopper, casual retail | `bạn`; `anh/chị` at payment | `quý khách` mid-flow |
+| Player, casual product | `bạn`, `các bạn`, the in-game role | `quý khách` |
+| The product itself | depends — see below | — |
+
+**What the product calls itself** is the choice people skip, and it leaks
+register faster than anything else:
+
+| Register | Self-reference |
+| --- | --- |
+| `formal` | `Ngân hàng`, `Công ty`, `Cơ quan`, `chúng tôi` |
+| `warm` | `bên mình`, the product name, or **no subject at all** |
+| `casual` | `mình`, `shop`, the product name |
+
+Dropping the subject is usually the best option in `warm`: *"Gửi link đặt lại
+mật khẩu"* needs no `chúng tôi` and no `bên mình`.
 
 Traps that bite:
 
 - **A bare `cô` addresses a woman.** If your audience is mixed-gender, `thầy cô`
   covers both. Where a neutral noun reads better, use the role: `giáo viên`,
   `khách hàng`, `phụ huynh`.
-- **`bạn` is the tell of translated SaaS.** It is grammatical and it is the
-  default of every localised product in this market, which is exactly why not
-  using it is worth something. Only reach for it when you truly do not know who
-  is reading.
+- **`bạn` is the tell of translated SaaS — in `warm` and `formal`.** It is
+  grammatical and it is the default of every localised product in this market,
+  which is exactly why not using it is worth something. In `casual` it is
+  correct and the `ban-pronoun` rule is off; a game addressing players as
+  `Quý khách` is the joke in the other direction.
 - **To a parent, the child is `con`**, not `em`. `em` is what a teacher calls
   them; a parent reading about their own child expects `con`.
-- **`quý …` is the register of an official circular**, not a tool.
+- **`quý …` is the register of an official circular** — which is exactly right
+  when you are one. Banned in `warm` and `casual`, expected in `formal`.
+  `Quý khách` is what every Vietnamese bank says, and dropping it there reads as
+  a startup that has not grown up.
 
 ---
 
@@ -95,8 +127,16 @@ most of the difference between "friendly product" and "government form".
 something** — a failure, a wait, a request, a refusal. Everywhere else it is
 noise.
 
-So: use them when the product is asking something of the reader or interrupting
-her. Do **not** use them in:
+**Per register:**
+
+- `formal` — **none.** No `nhé`, no `nha`. Courtesy comes from distance and the
+  honorific. `ạ` appears only in live support, where a human is speaking.
+- `warm` — by the rule above. This is where judgement is needed.
+- `casual` — plentiful and correct. `nhé`, `nha`, `nhen`, `luôn`, `á`. The
+  failure mode here is having too few, not too many.
+
+So, in `warm`: use them when the product is asking something of the reader or
+interrupting her. Do **not** use them in:
 
 - **Field validation errors.** Read at speed while fixing a form. *"Nhập tên
   lớp."* is right; *"Thầy cô nhập tên lớp giúp nhé."* is four words of friction
@@ -112,7 +152,11 @@ her. Do **not** use them in:
 
 ## 4. Word swaps
 
-The left column is not wrong. It is just not what anyone says.
+**These apply to `warm` and `casual` only.** In `formal`, most of the left
+column is the correct word — see the `disable` list in the formal profiles.
+
+The left column is not wrong. It is just not what anyone says *in a product that
+is not an institution*.
 
 | Instead of | Write | Why |
 | --- | --- | --- |
@@ -187,15 +231,56 @@ is invisible unless something asserts the warmth is still there.
 
 ## 7. Checklist before you add or change a string
 
-1. Who reads it? Is the address right for that person?
-2. Read it out loud in Vietnamese. Would a person say it that way, or only
+1. What register is this surface? (If you cannot answer, stop and read
+   [registers.md](registers.md).)
+2. Who reads it? Is the address right for that person?
+3. Read it out loud in Vietnamese. Would a person say it that way, or only
    write it?
-3. Is there an abstract noun where a verb belongs?
-4. Is `hệ thống` or `chúng tôi` the subject? Replace it.
-5. Is it asking something of the reader, or delivering bad news? Add exactly
-   one softener.
-6. Is it a label, a button, or a field error? Remove every softener.
-7. Run the guard test.
+4. Is there an abstract noun where a verb belongs?
+5. Is the subject an institution the product is not? Replace it.
+6. Does the sentence cost the reader something? Add exactly one softener — if
+   the register allows any at all.
+7. Is it a label, a button, or a field error? Remove every softener.
+8. Sentence case, not title case. Numbers and dates in Vietnamese format.
+9. Run the guard.
 
-If you add a word to the banned list in the test, add a row to the project's
-VOICE.md too. The test is the enforcement; the document is the reason.
+If you add a pattern to the rules, add a row to the project's `VOICE.md` too.
+The guard is the enforcement; the document is the reason. A ban with no
+documented reason gets deleted by the next person who trips over it.
+
+---
+
+## 8. What this cannot do
+
+Be honest about the ceiling, because a green test is persuasive.
+
+**The guard catches known tells.** It cannot hear rhythm. A catalogue can pass
+every rule and still read as a translation, because the thing that gives it away
+is the shape of the sentences, and no regex sees that.
+
+**This document is written from general Vietnamese.** It does not know your
+industry's terminology. In banking, medicine, law and government, the correct
+word is frequently prescribed and is not a style choice — that is what a
+profile's `glossary` is for, and filling it in needs someone who knows the
+domain.
+
+**Get a native speaker to read it.** Specifically:
+
+- Someone who uses products in this category, not just someone who speaks
+  Vietnamese
+- From the region your users are in — see the regional note in
+  [registers.md](registers.md)
+- Reading it **on the actual screen**, not in a spreadsheet of strings. Half the
+  problems in this file are only visible in context: a softener that is right in
+  isolation and wrong as the eleventh interruption
+
+Ask them one question: *"đọc có tự nhiên không, hay giống dịch từ tiếng Anh?"*
+Then ask them to point at the worst sentence. The answer to that second question
+is worth more than the whole rule list.
+
+**When the copy is generated by an LLM**, none of the above is checkable
+statically. Put the register, the address rules and the softener rule in the
+system prompt — naming the banned words explicitly — and add a live test against
+the real API asserting that warmth is present where it should be and absent from
+labels and numbered steps. A model drifting back to flat documentation prose is
+invisible otherwise.

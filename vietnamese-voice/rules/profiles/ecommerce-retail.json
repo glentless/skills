@@ -1,0 +1,55 @@
+{
+  "name": "ecommerce-retail",
+  "register": "casual",
+  "appliesTo": "Marketplaces, D2C shops, food delivery, fashion, groceries. Vietnamese online selling has its own settled voice, and it is closer to a message than to a page.",
+  "address": {
+    "customer": "bạn is genuinely correct here, and anh/chị when the order gets serious — payment, delivery, returns.",
+    "self": "shop, or mình. `Shop giao trong 2 ngày` is the native phrasing.",
+    "avoid": ["quý khách outside of invoices and legal pages", "chúng tôi"]
+  },
+  "properNouns": ["Việt Nam", "Shopee", "Lazada", "TikTok", "Zalo", "Momo", "ZaloPay", "VNPay", "COD", "Grab"],
+  "disable": ["ban-pronoun"],
+  "glossary": [
+    {
+      "right": "phí ship",
+      "wrong": ["phí vận chuyển hàng hóa", "cước phí giao hàng"],
+      "why": "`ship` is the word buyers and sellers both use. The formal expansion belongs on the invoice, not the checkout button."
+    },
+    {
+      "right": "đổi trả",
+      "wrong": ["hoàn trả sản phẩm", "trả lại hàng hóa"],
+      "why": "One settled term across the market."
+    },
+    {
+      "right": "COD",
+      "wrong": ["thanh toán khi nhận hàng tận nơi"],
+      "why": "COD is understood everywhere; spell it out once on the policy page and use the short form in flow."
+    }
+  ],
+  "extraRules": [
+    {
+      "id": "price-k-shorthand",
+      "kind": "string",
+      "registers": ["casual"],
+      "severity": "warn",
+      "pattern": "\\d{1,3}\\.000\\s*(đ|₫|VNĐ|VND)",
+      "flags": "iu",
+      "why": "Not wrong, but in casual retail copy people say and read `50k`. Full notation in running text reads like a receipt.",
+      "instead": "50k in marketing and chat copy. Keep the full 50.000 ₫ on invoices, checkout totals and anything legal.",
+      "tags": ["format", "register"],
+      "falsePositives": "Checkout and invoice strings should keep the full form — allow those explicitly."
+    },
+    {
+      "id": "fake-urgency",
+      "kind": "string",
+      "registers": ["casual"],
+      "severity": "warn",
+      "pattern": "(chỉ còn \\d+ (giây|phút)|nhanh tay kẻo hết|sắp hết hàng)",
+      "flags": "iu",
+      "why": "Manufactured scarcity. Vietnam's consumer protection law prohibits misleading commercial information, and buyers here recognise the pattern from marketplaces already.",
+      "instead": "state the real stock number or the real deadline, or say nothing",
+      "tags": ["compliance", "honesty"]
+    }
+  ],
+  "notes": "Prices: 50.000 ₫ formally, 50k in casual copy. Never a $ sign. Delivery windows day-first and 24-hour. Softeners are plentiful and correct in this register — `nha` especially, which reads southern and friendly."
+}

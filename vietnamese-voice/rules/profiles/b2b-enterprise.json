@@ -1,0 +1,44 @@
+{
+  "name": "b2b-enterprise",
+  "register": "formal",
+  "appliesTo": "Enterprise SaaS, admin consoles, ERP, HR and payroll, logistics, developer tools sold to companies. The reader is a professional doing a job, and jargon is often the precise word rather than a failure.",
+  "address": {
+    "user": "anh/chị in guidance; the role — quản trị viên, kế toán — where the screen is about permissions.",
+    "clientCompany": "Quý công ty in contracts and formal notices.",
+    "self": "chúng tôi, or the product name.",
+    "avoid": ["bạn", "nhé", "nha"]
+  },
+  "properNouns": ["Việt Nam", "API", "SSO", "SLA", "ERP", "CRM", "Excel", "CSV", "PDF", "Zalo", "Microsoft", "Google"],
+  "disable": ["he-thong", "chung-toi", "du-lieu", "dinh-dang", "quy-honorific", "duong-dan", "english-ui-leftover"],
+  "glossary": [
+    {
+      "right": "phân quyền",
+      "wrong": ["cấp quyền hạn", "gán vai trò người dùng"],
+      "why": "The term Vietnamese admins use and search for."
+    },
+    {
+      "right": "đối soát",
+      "wrong": ["so sánh đối chiếu số liệu"],
+      "why": "Standard finance-ops term; the long form reads as a description of it rather than the name of it."
+    },
+    {
+      "right": "bảng lương",
+      "wrong": ["danh sách chi trả lương"],
+      "why": "Payroll has one name."
+    }
+  ],
+  "extraRules": [
+    {
+      "id": "untranslated-error-code",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "warn",
+      "pattern": "(null|undefined|NaN|Internal Server Error|Bad Request|Timeout|Exception)",
+      "flags": "u",
+      "why": "A runtime value or an HTTP phrase reaching the screen. The reader is a professional, not a developer, and cannot act on it.",
+      "instead": "say what failed and what to do; keep the code in a corner for support, not in the sentence",
+      "tags": ["coverage", "errors"]
+    }
+  ],
+  "notes": "`hệ thống` and `dữ liệu` are the correct words here and the corresponding rules are off. That is not licence for officialese: `được thực hiện bởi hệ thống` is still worse than `hệ thống chạy`. Numbers matter more than in any other profile — thousands separators, currency and dates get read as data, so a locale bug is a correctness bug."
+}

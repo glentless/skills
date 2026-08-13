@@ -1,0 +1,261 @@
+{
+  "version": 2,
+  "note": "Rule data for the vietnamese-voice skill. Language-agnostic on purpose: the harnesses in ../harness/ each load this file, so a rule added here reaches every stack at once. Patterns are ECMAScript-flavoured; the Python harness translates the handful of differences (see check_vietnamese.py). All patterns and all checked text are normalised to Unicode NFC before matching.",
+  "registers": {
+    "formal": "Bank, government, insurance, hospital admin, legal, airline. Distance is the courtesy. `Quý khách`, `Vui lòng`, `Hệ thống` are correct here.",
+    "warm": "SaaS, education, clinics, small business, D2C. A competent person talking to another. The default for most products.",
+    "casual": "Games, social, Gen-Z retail, food delivery. Speech, not writing. `bạn`/`mình` and slang are correct here."
+  },
+  "rules": [
+    {
+      "id": "he-thong",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "hệ thống",
+      "flags": "iu",
+      "why": "`hệ thống` is the English subject 'the system' wearing a Vietnamese coat.",
+      "instead": "the product's name, `máy` — what a person calls a computer doing something — or no subject at all",
+      "tags": ["translationese", "subject"]
+    },
+    {
+      "id": "chung-toi",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "chúng tôi",
+      "flags": "iu",
+      "why": "`chúng tôi` is a company voice. Most products this register serves are a handful of people.",
+      "instead": "bên mình, or no subject at all",
+      "tags": ["translationese", "subject"]
+    },
+    {
+      "id": "duong-dan",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "đường dẫn|liên kết",
+      "flags": "iu",
+      "why": "`đường dẫn` and `liên kết` are dictionary Vietnamese. Everyone says 'gửi link'.",
+      "instead": "link (the noun), Sao chép link (the button)",
+      "tags": ["translationese", "loanword"]
+    },
+    {
+      "id": "vui-long",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "vui lòng",
+      "flags": "iu",
+      "why": "`Vui lòng` is 'Please' in a suit — the politeness of a form, not of a person.",
+      "instead": "… giúp / … nhé, or just the imperative",
+      "tags": ["translationese", "register"]
+    },
+    {
+      "id": "da-xay-ra-loi",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "đã xảy ra lỗi|đã có lỗi xảy ra|lỗi đã xảy ra",
+      "flags": "iu",
+      "why": "A literal cast of 'An error occurred'. An abstract noun doing the work of a verb.",
+      "instead": "Có lỗi rồi, or name the thing that failed: Chưa lưu được",
+      "tags": ["translationese", "abstract-noun"]
+    },
+    {
+      "id": "du-lieu",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "dữ liệu",
+      "flags": "iu",
+      "why": "`dữ liệu` is a database word on a screen an ordinary person reads.",
+      "instead": "Chưa có gì ở đây, or name the missing thing",
+      "tags": ["jargon"]
+    },
+    {
+      "id": "dinh-dang",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "định dạng",
+      "flags": "iu",
+      "why": "`định dạng` asks the reader to care what a file format is.",
+      "instead": "Email này chưa đúng / File này không mở được",
+      "tags": ["jargon"]
+    },
+    {
+      "id": "officialese-passive",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "được thực hiện|được tiến hành|được sử dụng bởi|được thực thi",
+      "flags": "iu",
+      "why": "Officialese. Vietnamese speech uses an active verb.",
+      "instead": "an active verb — làm, chạy, gửi, mở",
+      "tags": ["translationese", "passive"]
+    },
+    {
+      "id": "quy-honorific",
+      "kind": "string",
+      "registers": ["warm", "casual"],
+      "severity": "error",
+      "pattern": "quý (thầy cô|phụ huynh|khách hàng|khách|vị|công ty|đối tác|anh chị)",
+      "flags": "iu",
+      "why": "`quý …` is the register of an official circular. In a warm or casual product it reads as a form letter.",
+      "instead": "the plain form of address for this reader",
+      "tags": ["register", "address"]
+    },
+    {
+      "id": "ban-pronoun",
+      "kind": "string",
+      "registers": ["formal", "warm"],
+      "severity": "error",
+      "pattern": "(^|[^\\p{L}])bạn([^\\p{L}]|$)",
+      "flags": "u",
+      "why": "`bạn` is how every translated SaaS in this market addresses a user. It is correct and it is invisible. In a formal register it is also too familiar — a bank says Quý khách.",
+      "instead": "the real form of address for this reader — see the profile's `address` block",
+      "tags": ["address"]
+    },
+    {
+      "id": "nhap-chuot",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "error",
+      "severityByRegister": { "formal": "warn" },
+      "pattern": "nhấp chuột|nhấn chuột|click chuột",
+      "flags": "iu",
+      "why": "Nobody clicks a mouse on a phone, and most Vietnamese users are on phones. (Desktop-only enterprise consoles are the exception — hence a warning, not an error, in the formal register.)",
+      "instead": "bấm, or nhấn",
+      "tags": ["mobile"]
+    },
+    {
+      "id": "semicolon",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "error",
+      "pattern": ";",
+      "flags": "u",
+      "why": "Semicolons do not appear in ordinary written Vietnamese; they read as imported punctuation.",
+      "instead": "a full stop, or a comma",
+      "tags": ["punctuation"]
+    },
+    {
+      "id": "en-thousands",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "warn",
+      "pattern": "\\d,\\d{3}(?!\\d)",
+      "flags": "u",
+      "why": "English thousands separator. Vietnamese groups with a dot and uses the comma as the decimal mark: 1.000.000 ₫, 0,8 điểm.",
+      "instead": "1.000.000 — and check whether the number is being formatted with an en-US locale somewhere upstream",
+      "tags": ["format", "number"],
+      "falsePositives": "A genuine three-decimal-place figure (1,234 kg) matches this too. Warning, not error, for that reason."
+    },
+    {
+      "id": "dollar-sign",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "error",
+      "pattern": "\\$\\s?\\d",
+      "flags": "u",
+      "why": "A dollar sign in Vietnamese copy is almost always an untranslated price or a hardcoded en-US format.",
+      "instead": "1.000.000 ₫ or 1.000.000đ — the symbol goes after the number. Disable this rule in the profile if the product genuinely prices in USD.",
+      "tags": ["format", "currency"]
+    },
+    {
+      "id": "am-pm",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "error",
+      "pattern": "\\d\\s*[AaPp]\\.?[Mm]\\.?(?![\\p{L}])",
+      "flags": "u",
+      "why": "Vietnamese uses a 24-hour clock. `2 PM` is an untranslated timestamp.",
+      "instead": "14h, 14:00, or 14 giờ",
+      "tags": ["format", "time"]
+    },
+    {
+      "id": "iso-date",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "warn",
+      "pattern": "\\d{4}-\\d{2}-\\d{2}",
+      "flags": "u",
+      "why": "An ISO date has leaked into copy a person reads. Vietnamese writes the day first.",
+      "instead": "13/08/2026, or 13 tháng 8",
+      "tags": ["format", "date"],
+      "falsePositives": "Version strings and identifiers match this. Warning only."
+    },
+    {
+      "id": "english-ui-leftover",
+      "kind": "string",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "warn",
+      "pattern": "(^|[^\\p{L}])(Submit|Cancel|Loading|Success|Settings|Delete|Continue|Confirm|Welcome|Please|Sorry|Required|Optional)([^\\p{L}]|$)",
+      "flags": "u",
+      "why": "An untranslated English UI word in a Vietnamese catalogue — usually a string that was added and never localised.",
+      "instead": "translate it, and check whether the whole key was missed",
+      "tags": ["coverage"],
+      "falsePositives": "Brand and product names. Add them to the profile's `properNouns` or allow the string."
+    },
+    {
+      "id": "informal-particles-in-formal",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "warn",
+      "pattern": "(nhé|nha|nhen|hen)([^\\p{L}]|$)",
+      "flags": "iu",
+      "why": "A softening particle in a bank, government or legal notice reads as unserious. Formal register carries courtesy through distance and `ạ`, not through `nhé`.",
+      "instead": "drop the particle; the sentence is already polite in this register",
+      "tags": ["register", "softener"]
+    },
+    {
+      "id": "slang-in-formal",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "warn",
+      "pattern": "(^|[^\\p{L}])(ok|oke|okie|hihi|haha|à nha|xỉu|chốt đơn)([^\\p{L}]|$)",
+      "flags": "iu",
+      "why": "Casual speech in a formal register.",
+      "instead": "the plain formal equivalent",
+      "tags": ["register"]
+    },
+    {
+      "id": "stiffness-in-casual",
+      "kind": "string",
+      "registers": ["casual"],
+      "severity": "warn",
+      "pattern": "kính (gửi|mong|đề nghị|báo)|trân trọng|nghiêm túc đề nghị",
+      "flags": "iu",
+      "why": "Circular-letter stiffness in a product whose voice is meant to be speech.",
+      "instead": "say it the way a person would",
+      "tags": ["register"]
+    },
+    {
+      "id": "titlecase",
+      "kind": "titlecase",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "warn",
+      "threshold": 2,
+      "why": "Vietnamese does not title-case. English UI does — 'Save Changes' — and the habit survives translation as `Lưu Thay Đổi`.",
+      "instead": "sentence case: capitalise the first word and proper nouns only — `Lưu thay đổi`",
+      "tags": ["typography"],
+      "falsePositives": "Multi-word proper nouns and brand names. Add them to the profile's `properNouns`."
+    },
+    {
+      "id": "orthography-mixed",
+      "kind": "corpus",
+      "registers": ["formal", "warm", "casual"],
+      "severity": "warn",
+      "variants": {
+        "kiểu cũ — tone on the second vowel (hoà, thuý, khoá)": "o[àáảãạ](?![\\p{L}])|(?<![qQ])u[ỳýỷỹỵ](?![\\p{L}])",
+        "kiểu mới — tone on the first vowel (hòa, thúy, khóa)": "[òóỏõọ]a(?![\\p{L}])|(?<![qQ])[ùúủũụ]y(?![\\p{L}])"
+      },
+      "flags": "u",
+      "why": "Both tone-placement conventions are in use in Vietnam and neither is wrong, but a catalogue containing both was written by two people, and it shows.",
+      "instead": "pick one and record it in VOICE.md. Most modern software and dictionaries use kiểu mới (hòa, thúy).",
+      "tags": ["orthography", "consistency"],
+      "falsePositives": "The distinction only exists in open syllables — `hoà`/`hòa`, `thuý`/`thúy`. Closed syllables like `toàn`, `khoản`, `chuyện` have one correct spelling, so the patterns require the accented vowel to end the syllable. Without that, every `toàn diện` in the catalogue reads as old-style."
+    }
+  ]
+}

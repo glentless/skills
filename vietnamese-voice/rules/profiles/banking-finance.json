@@ -1,0 +1,50 @@
+{
+  "name": "banking-finance",
+  "register": "formal",
+  "appliesTo": "Banks, e-wallets, lending, insurance, securities, accounting. Regulated: wording is often prescribed, and the terms are not yours to improve.",
+  "address": {
+    "customer": "Quý khách. Capitalised, and it is correct here — this is the one register where the honorific is expected.",
+    "self": "Ngân hàng / Công ty / chúng tôi. A bank genuinely is an institution; `bên mình` would undercut it.",
+    "avoid": ["bạn", "mình", "nhé", "nha"]
+  },
+  "properNouns": ["Việt Nam", "Ngân hàng Nhà nước", "Quý khách", "VND", "OTP", "PIN", "ATM", "QR", "Internet Banking", "Mobile Banking"],
+  "disable": ["he-thong", "chung-toi", "vui-long", "du-lieu", "dinh-dang", "quy-honorific", "duong-dan"],
+  "glossary": [
+    {
+      "right": "tài khoản thanh toán",
+      "wrong": ["tài khoản chi tiêu", "tài khoản tiêu dùng"],
+      "why": "The regulated term. Invented synonyms create a compliance problem, not a style problem."
+    },
+    {
+      "right": "số dư khả dụng",
+      "wrong": ["số dư có thể dùng", "số dư sẵn có"],
+      "why": "Prescribed terminology."
+    },
+    {
+      "right": "mã OTP",
+      "wrong": ["mã xác thực một lần", "mật khẩu dùng một lần"],
+      "why": "OTP is what customers are taught to recognise in fraud warnings. Renaming it in one place weakens every other place."
+    },
+    {
+      "right": "phí thường niên",
+      "wrong": ["phí hàng năm", "phí duy trì năm"],
+      "why": "Prescribed terminology."
+    }
+  ],
+  "extraRules": [
+    {
+      "id": "otp-never-requested",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "error",
+      "pattern": "(cung cấp|nhập|gửi|cho biết).{0,20}(mã OTP|OTP|mật khẩu)",
+      "flags": "iu",
+      "unless": "không bao giờ|tuyệt đối không|không được|đừng bao giờ|không yêu cầu",
+      "unlessFlags": "iu",
+      "why": "Copy that asks a customer to hand over an OTP or password trains them to comply with the exact phrasing fraudsters use. Banks in Vietnam publish the opposite instruction, and one careless string undoes the campaign.",
+      "instead": "Ngân hàng không bao giờ yêu cầu Quý khách cung cấp mã OTP. If the string is a legitimate in-app entry prompt, allow it explicitly with a comment.",
+      "tags": ["fraud", "security"]
+    }
+  ],
+  "notes": "Formality is the courtesy here — distance, not warmth. No sentence-final particles. Amounts always 1.000.000 ₫ with a non-breaking space before the symbol. Legal disclaimers are usually supplied by compliance and are not yours to rewrite for rhythm; fix typos only, and route anything else back to them."
+}

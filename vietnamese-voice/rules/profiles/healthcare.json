@@ -1,0 +1,55 @@
+{
+  "name": "healthcare",
+  "register": "formal",
+  "appliesTo": "Hospitals, clinics, booking and telemedicine, pharmacy, lab results. Formal in structure, but the reader is frightened, so the words carry more than usual.",
+  "address": {
+    "patient": "anh/chị by default. Older patients: cô/chú, bác. Never bạn.",
+    "clinician": "bác sĩ, and address them by role — Bác sĩ + full name.",
+    "self": "phòng khám / bệnh viện / chúng tôi",
+    "avoid": ["bạn", "nhé on anything clinical"]
+  },
+  "properNouns": ["Việt Nam", "Bộ Y tế", "COVID-19", "X-quang", "MRI", "CT", "BHYT"],
+  "disable": ["he-thong", "chung-toi", "vui-long", "du-lieu", "quy-honorific"],
+  "glossary": [
+    {
+      "right": "bảo hiểm y tế",
+      "wrong": ["bảo hiểm sức khỏe nhà nước"],
+      "why": "BHYT is the statutory scheme and has one name."
+    },
+    {
+      "right": "tái khám",
+      "wrong": ["khám lại", "kiểm tra lại"],
+      "why": "Clinical term patients are given on discharge papers."
+    },
+    {
+      "right": "chỉ định",
+      "wrong": ["yêu cầu của bác sĩ"],
+      "why": "Clinical term."
+    }
+  ],
+  "extraRules": [
+    {
+      "id": "no-diagnosis-in-ui-copy",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "warn",
+      "pattern": "(bình thường|không sao|khỏi rồi|nguy hiểm|nghiêm trọng)",
+      "flags": "iu",
+      "why": "Product copy that interprets a result is practising medicine. A lab value shown with `bình thường` attached becomes a diagnosis the clinician did not give.",
+      "instead": "state the number and the reference range, and route interpretation to the clinician",
+      "tags": ["safety", "scope"]
+    },
+    {
+      "id": "patient-dignity",
+      "kind": "string",
+      "registers": ["formal"],
+      "severity": "warn",
+      "pattern": "(^|[^\\p{L}])(béo phì|nghiện|tâm thần|dị tật)([^\\p{L}]|$)",
+      "flags": "iu",
+      "why": "Clinical labels applied to a person in interface copy read as a judgement. In a chart they are neutral; on a screen the patient is holding they are not.",
+      "instead": "name the condition in relation to care, not to the person — `đang điều trị …`",
+      "tags": ["dignity"]
+    }
+  ],
+  "notes": "Appointment times use the 24-hour clock. Dates day-first. Bad news gets the shortest, plainest sentence available and a named next step — never a softener that buries it. Anything that could be read as advice needs a clinician's sign-off, not a copywriter's."
+}
