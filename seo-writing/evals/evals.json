@@ -1,0 +1,95 @@
+[
+  {
+    "id": "write-uses-site-and-refuses-to-invent",
+    "skills": [
+      "seo-writing"
+    ],
+    "query": "/seo-writing write a post about whether you can use soap on cast iron. Content is in evals/fixtures/site.",
+    "files": [
+      "evals/fixtures/site/BLOG.md",
+      "evals/fixtures/site/good-post.md",
+      "evals/fixtures/site/reseason-cast-iron.md",
+      "evals/fixtures/site/cast-iron-cleaning-tips.md"
+    ],
+    "expected_behavior": [
+      "Reads BLOG.md and at least one existing post before drafting, and matches their frontmatter fields",
+      "Asks the user once for first-hand material (Jo's experience) before or alongside the outline, instead of inventing anecdotes",
+      "Notices the overlap with good-post.md and cast-iron-cleaning-tips.md and either angles the new post distinctly or proposes a rewrite",
+      "Produces a source ledger where each cited figure was seen on a fetched page; the draft contains no number without an inline source",
+      "Uses 'The short version' as the summary label, first person as Jo, no em dashes, no brand mentions",
+      "Links to existing posts with real paths (e.g. reseason-cast-iron) and lists back-link candidates",
+      "Runs scripts/check_post.py on the draft and ends with 0 errors",
+      "Delivers a summary with score, sources by tier and open items"
+    ]
+  },
+  {
+    "id": "review-weak-post",
+    "skills": [
+      "seo-writing"
+    ],
+    "query": "/seo-writing review evals/fixtures/weak-post.md",
+    "files": [
+      "evals/fixtures/weak-post.md"
+    ],
+    "expected_behavior": [
+      "Runs scripts/check_post.py and uses its errors as evidence",
+      "Flags as P0: the unsourced 73% and $42 figures, the leftover [INTERNAL-LINK] placeholder",
+      "Flags as P1 or higher: heading skip H1 -> H4, updated date before published date, image without alt text, missing meta description",
+      "Names the absence of any gain over existing content and the machine-written tells (in today's, game-changer, not just X but Y, em dash)",
+      "Scores below 60 with category breakdown and gives a concrete fix for each finding",
+      "Does not edit the file"
+    ]
+  },
+  {
+    "id": "audit-site",
+    "skills": [
+      "seo-writing"
+    ],
+    "query": "/seo-writing audit evals/fixtures/site",
+    "files": [
+      "evals/fixtures/site/good-post.md",
+      "evals/fixtures/site/reseason-cast-iron.md",
+      "evals/fixtures/site/cast-iron-cleaning-tips.md"
+    ],
+    "expected_behavior": [
+      "Runs scripts/check_post.py --site on the directory rather than reading files ad hoc",
+      "Reports cast-iron-cleaning-tips as an orphan and reseason-cast-iron as a dead end",
+      "Reports the unresolved link /blog/missing-post/",
+      "Treats good-post vs cast-iron-cleaning-tips as a cannibalization candidate, recommends merge or differentiate, and says Search Console data would confirm it",
+      "Flags that good-post's image /images/rinse.jpg does not exist",
+      "Notices that descriptions promise more than the bodies deliver (good-post promises four steps and a test; body has two steps)",
+      "Recommends merging the 'cast iron' and 'cast-iron' tags",
+      "Saves the report to reports/blog-audit-<date>.md and does not redirect or delete anything without approval",
+      "Does not attribute the unrelated ex.com Search Console exports in the workspace to this blog"
+    ]
+  },
+  {
+    "id": "decay-from-gsc-export",
+    "skills": [
+      "seo-writing"
+    ],
+    "query": "/seo-writing decay evals/fixtures/gsc-compare.csv",
+    "files": [
+      "evals/fixtures/gsc-compare.csv"
+    ],
+    "expected_behavior": [
+      "Runs scripts/decay.py on the single compare export",
+      "Identifies /b as a ranking loss, /c as a snippet or SERP change, /d as a demand drop to check year over year",
+      "Does not treat /e (tiny prior traffic) as decay",
+      "Proposes next steps per page (refresh via rewrite --update, title and opener changes, YoY comparison) without editing posts"
+    ]
+  },
+  {
+    "id": "review-without-testing",
+    "skills": [
+      "seo-writing"
+    ],
+    "query": "/seo-writing write a review of the Lodge 10.25 inch skillet",
+    "files": [],
+    "expected_behavior": [
+      "Recognizes that a review requires hands-on testing and asks whether the user has used the pan, or offers a comparison or explainer instead",
+      "Does not write first-person testing claims, invented measurements or a fabricated verdict",
+      "If the user supplies testing notes, uses the review template with a 'How it was tested' section built only from those notes"
+    ]
+  }
+]

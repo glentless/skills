@@ -7,6 +7,7 @@ came out of.
 | Skill | What it does |
 | --- | --- |
 | [vietnamese-voice](vietnamese-voice/) | Makes Vietnamese copy read as though a Vietnamese person wrote it, not as a well-translated English sentence. Register-aware principles, eight industry profiles, and a rule engine with CLI, vitest and Python harnesses. |
+| [seo-writing](seo-writing/) | Writes, rewrites, reviews and plans blog posts that rank and get cited, with every number traced to a source. Research, 12 post templates, a 100-point review, site audits, charts, images, repurposing and translation. |
 
 ## Install
 
@@ -24,6 +25,9 @@ New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\vietnames
 git clone https://github.com/glentless/skills.git ~/src/skills
 ln -s ~/src/skills/vietnamese-voice ~/.claude/skills/vietnamese-voice
 ```
+
+On Windows without Developer Mode, a junction works the same and needs no
+admin rights: `New-Item -ItemType Junction -Path ... -Target ...`.
 
 **Scoped to one repo, committed with it** — copy rather than symlink, so
 teammates get it too:
@@ -119,6 +123,56 @@ the actual screens.
 
 Not Vietnamese-only in spirit — the same shape works for any language where
 politeness and address are grammatical rather than optional.
+
+---
+
+## seo-writing
+
+A post is worth publishing when it answers the reader better than page one,
+every claim traces to a source, and it reads like a person wrote it. What ranks
+in search and what AI answer engines cite are the same thing, so the skill
+optimises for those three and nothing else.
+
+### What it does
+
+| Command | |
+| --- | --- |
+| `write`, `rewrite`, `update` | Research → source ledger → outline → draft → check → fresh-eyes review → deliver |
+| `review` (`--seo`, `--geo`), `factcheck` | 100-point score, P0–P3 findings, every claim checked against its source |
+| `research`, `plan brief/outline/strategy/calendar/cluster` | Source ledgers, recent-discussion briefs, planning documents, hub-and-spoke clusters |
+| `audit`, `cannibalization`, `decay`, `taxonomy`, `locales` | Link graph, overlapping posts, traffic decay from Search Console exports, tag health |
+| `schema`, `repurpose`, `translate`/`localize`, `voice`, `chart`, `image` | JSON-LD, channel versions, hreflang, a `BLOG.md` context file, SVG charts, licensed or generated images |
+
+### What keeps it honest
+
+- **No fabricated anything.** Every figure in a post comes from a page someone
+  opened, cited at the claim. No invented anecdotes, customers or test results.
+- **A checker that fails the build.** `scripts/check_post.py` exits non-zero on
+  leftover placeholders, skipped headings, images without alt text, impossible
+  dates, invalid JSON-LD and em dashes. It warns on numbers without a source and
+  on machine-written filler.
+- **The author doesn't review their own draft.** A separate pass scores it, and
+  nothing ships with a P0 or P1.
+
+### Running it
+
+```bash
+python seo-writing/scripts/check_post.py post.md                 # lint one post
+python seo-writing/scripts/check_post.py --site content/blog     # orphans, overlaps, staleness, tags
+python seo-writing/scripts/decay.py gsc-pages-compare.csv        # posts losing Search traffic
+python seo-writing/scripts/chart.py spec.json --mdx              # accessible SVG chart
+python seo-writing/scripts/images.py stock "cast iron skillet"   # licensed stock, credit logged
+```
+
+Python 3.9+, standard library only. Pillow is optional, for resizing images.
+Image generation uses whichever of `OPENAI_API_KEY` or `GEMINI_API_KEY` is set,
+or an image MCP tool if one is loaded.
+
+### What it does not do
+
+It doesn't measure live sites (Core Web Vitals, crawling, indexing). It hands
+those to an SEO skill. It can't supply first-hand experience either: when a post
+needs data or opinions only you have, it asks rather than inventing them.
 
 ---
 
