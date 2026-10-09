@@ -1,0 +1,88 @@
+{
+  "domain": "acme-plumbing.ca",
+  "market": {
+    "country": "Canada",
+    "language_code": "en",
+    "device": "desktop",
+    "default_serp_location": "Calgary,Alberta,Canada"
+  },
+  "places": {
+    "calgary": "Calgary,Alberta,Canada",
+    "airdrie": null
+  },
+  "service_lines": [
+    "Plumbing",
+    "Drains"
+  ],
+  "competitors": [
+    "rivalplumbing.example"
+  ],
+  "competitor_brands": [
+    "rival"
+  ],
+  "brand_patterns": [],
+  "exclude_patterns": [
+    "\\bjobs?\\b",
+    "career",
+    "salary",
+    "\\bcourse",
+    "school",
+    "\\bdegree\\b",
+    "near me"
+  ],
+  "out_of_area_patterns": [
+    "toronto",
+    "vancouver",
+    "ontario"
+  ],
+  "research": {
+    "services": [
+      "plumber",
+      "drain cleaning",
+      "water heater installation"
+    ],
+    "places": [
+      "calgary",
+      "airdrie"
+    ]
+  },
+  "min_volume": 20,
+  "batch_size": 4,
+  "map": {
+    "path": "keyword-map.xlsx",
+    "sheet": "Keyword map",
+    "rank_sheet": "Rank tracker",
+    "triage_sheet": "Draft list triage"
+  },
+  "data_dir": "seo-data",
+  "priority_rules": [
+    {
+      "service_line": "*",
+      "page_types": [
+        "hub",
+        "service",
+        "location"
+      ],
+      "priority": 1
+    },
+    {
+      "service_line": "*",
+      "page_types": [
+        "post"
+      ],
+      "priority": 2
+    }
+  ],
+  "copy_from": {
+    "post": "/blog-sample/"
+  },
+  "url_conventions": "Posts at /slug/ with no /blog/ prefix.",
+  "classify": {
+    "extra_org_patterns": [],
+    "extra_directory_patterns": []
+  },
+  "budget": {
+    "max_usd_per_run": 1.0
+  },
+  "notes": "Emergency plumbing gets its own page (client decision). Posts live at /slug/, no /blog/."
+}

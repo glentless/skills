@@ -1,0 +1,67 @@
+{
+  "domain": "example.com",
+  "market": {
+    "country": "Canada",
+    "language_code": "en",
+    "device": "desktop",
+    "default_serp_location": "City,Region,Country"
+  },
+  "places": {},
+  "service_lines": [
+    "Main"
+  ],
+  "competitors": [],
+  "competitor_brands": [],
+  "brand_patterns": [],
+  "exclude_patterns": [
+    "\\bjobs?\\b",
+    "career",
+    "salary",
+    "\\bcourse",
+    "school",
+    "\\bdegree\\b",
+    "near me"
+  ],
+  "out_of_area_patterns": [],
+  "research": {
+    "services": [],
+    "places": []
+  },
+  "min_volume": 20,
+  "batch_size": 4,
+  "map": {
+    "path": "keyword-map.xlsx",
+    "sheet": "Keyword map",
+    "rank_sheet": "Rank tracker",
+    "triage_sheet": "Draft list triage"
+  },
+  "data_dir": "seo-data",
+  "priority_rules": [
+    {
+      "service_line": "*",
+      "page_types": [
+        "hub",
+        "service",
+        "location"
+      ],
+      "priority": 1
+    },
+    {
+      "service_line": "*",
+      "page_types": [
+        "post"
+      ],
+      "priority": 2
+    }
+  ],
+  "copy_from": {},
+  "url_conventions": "",
+  "classify": {
+    "extra_org_patterns": [],
+    "extra_directory_patterns": []
+  },
+  "budget": {
+    "max_usd_per_run": 1.0
+  },
+  "notes": ""
+}

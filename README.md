@@ -8,6 +8,7 @@ came out of.
 | --- | --- |
 | [vietnamese-voice](vietnamese-voice/) | Makes Vietnamese copy read as though a Vietnamese person wrote it, not as a well-translated English sentence. Register-aware principles, eight industry profiles, and a rule engine with CLI, vitest and Python harnesses. |
 | [seo-writing](seo-writing/) | Writes, rewrites, reviews and plans blog posts that rank and get cited, with every number traced to a source. Research, 12 post templates, a 100-point review, site audits, charts, images, repurposing and translation. |
+| [seo-keyword-map](seo-keyword-map/) | Decides which page should rank for which keyword from what Google actually shows. Keyword research and SERP pulls through DataForSEO, grouping by the kind of page that ranks, a validated keyword-map workbook, and the next pages to build. Type "what now" in a project to start. |
 
 ## Install
 
@@ -173,6 +174,62 @@ or an image MCP tool if one is loaded.
 It doesn't measure live sites (Core Web Vitals, crawling, indexing). It hands
 those to an SEO skill. It can't supply first-hand experience either: when a post
 needs data or opinions only you have, it asks rather than inventing them.
+
+---
+
+## seo-keyword-map
+
+A keyword map says which page should rank for which search. Most maps group keywords
+by how they sound. This one groups them by what Google shows: two keywords share a page
+when Google answers them with the same kind of page, and get separate pages when it
+doesn't.
+
+That turns out to need care at the volumes local businesses live on. At 20–300
+searches a month, about half of a keyword's top 10 changes between two pulls an hour
+apart, and the same few local firms' homepages rank for every service. So the skill
+pulls each SERP twice, labels every result (service page, article, directory,
+association), and decides on the kind of page first and shared URLs second.
+
+### What it does
+
+| Command | |
+| --- | --- |
+| `what now` | Where the project stands and the one next step, with its cost |
+| `init` | Sets a client folder up: `seo-project.json` and an empty `keyword-map.xlsx` |
+| `research`, `triage` | Service × place volume grid, competitor rankings, suggestions, related searches, imports; every candidate kept, folded or removed with a reason |
+| `serp`, `group` | Pulls and classifies Google results, then reassigns keywords to pages with the evidence noted on each move |
+| `plan`, `brief` | The next pages to build, with keywords, FAQ questions and the existing page to copy; a brief per page that `seo-writing` writes from, carrying the site's own page rules |
+| `ranks` | Positions and map-pack presence, on demand or on a schedule you pick, added to the Rank tracker with a report of what moved |
+
+### What keeps it safe to hand to a team
+
+- **The workbook only changes through a validated changes file.** `apply.py --check`
+  refuses a page with no main keyword or two, an unknown keyword, an untyped new page;
+  every write makes a backup first.
+- **A shared API account with a cap.** Every paid step states its estimate and stops
+  over the per-run limit; every call is logged per client. Credentials live in the
+  user folder and the scripts warn if they turn up anywhere else.
+- **Client decisions are recorded, not re-argued.** `seo-project.json` holds what is
+  specific to a client, so the skill itself never changes per project.
+
+### Running it
+
+```bash
+pip install openpyxl
+python seo-keyword-map/scripts/status.py          # in a client folder: state and next step
+python seo-keyword-map/scripts/serp.py pull        # Google results for keywords without data
+python seo-keyword-map/scripts/group.py            # grouping evidence report
+python seo-keyword-map/scripts/apply.py changes.json --check
+```
+
+Needs a [DataForSEO](https://dataforseo.com) account for research and SERP pulls; a
+200-keyword local project costs about a dollar. Python 3.9+, `openpyxl`.
+
+### What it does not do
+
+It doesn't write the pages (it hands `seo-writing` a brief),
+or know what the client sells: a keyword whose results show another trade needs a
+person who knows the business.
 
 ---
 

@@ -1,0 +1,27 @@
+{
+  "_note": "Regex fragments used by serp.py classify to label each ranking URL. Matched against 'domain/path'. Order of checks: directory, org, social, then homepage, article, service. Add project-specific patterns in seo-project.json under classify.extra_directory_patterns / extra_org_patterns, not here, unless they apply to every market.",
+  "directory": [
+    "yelp\\.", "yellowpages", "homestars", "houzz", "angi\\.com", "homeadvisor", "thumbtack", "bbb\\.org",
+    "trustedpros", "threebestrated", "expertise\\.com", "clutch\\.co", "cylex", "n49\\.", "opendi", "hotfrog",
+    "mapquest", "groupon", "cossd", "alberta-local", "ricsfirms", "sosai", "starofservice", "marketlister",
+    "wheree", "expectedcosts", "checkatrade", "trustatrade", "ratedpeople", "mybuilder\\.com/tradesmen",
+    "bark\\.com", "nextdoor", "find-a-", "/directory", "manta\\.com", "chamberofcommerce", "zoominfo",
+    "dnb\\.com", "crunchbase"
+  ],
+  "org": [
+    "\\.gov", "\\.gc\\.ca", "canada\\.ca", "alberta\\.ca", "ontario\\.ca", "gov\\.uk", "\\.edu", "\\.ac\\.uk",
+    "wikipedia", "britannica", "merriam-webster", "dictionary", "lawinsider", "investopedia",
+    "linkedin", "indeed", "glassdoor", "ziprecruiter", "monster\\.", "workopolis", "alis\\.alberta",
+    "nrcan", "usgs", "noaa", "statcan", "wiki\\.", "fool\\.com", "nerdwallet"
+  ],
+  "social": [
+    "reddit", "facebook", "quora", "youtube", "tiktok", "instagram", "x\\.com", "twitter", "pinterest",
+    "medium\\.com", "mybuilder\\.com/questions"
+  ],
+  "article": [
+    "/blog", "/news", "/article", "/insights", "/resources?/", "/learn", "/guide", "/faq", "/question",
+    "/glossary", "/post/", "/library/", "what-", "how-", "why-", "when-", "-vs-", "-versus-", "difference",
+    "explained", "meaning", "definition", "understanding", "importance", "guide", "tips", "cost", "price",
+    "/20\\d\\d/", "\\.pdf$", "-is-", "-are-", "-do-", "-does-", "role-of", "benefits", "checklist"
+  ]
+}

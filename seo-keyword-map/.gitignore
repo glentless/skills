@@ -1,0 +1,19 @@
+# credentials never live in this repo
+.env
+.env.*
+*.env
+# python
+__pycache__/
+*.pyc
+# outputs from running scripts against the fixture (rebuild with make_fixture.py)
+evals/fixtures/acme/seo-data/group-*.md
+evals/fixtures/acme/seo-data/plan-*.md
+evals/fixtures/acme/seo-data/research/review-*.md
+evals/fixtures/acme/seo-data/map-changelog.md
+evals/fixtures/acme/seo-data/dataforseo-ledger.csv
+evals/fixtures/acme/keyword-map-backup-*.xlsx
+evals/fixtures/acme/changes*.json
+~$*
+evals/fixtures/acme/briefs/
+evals/fixtures/acme/seo-data/ranks/
+evals/fixtures/acme/seo-data/ranks-report-*.md

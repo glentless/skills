@@ -1,0 +1,160 @@
+[
+  {
+    "id": "what-now-fresh-folder",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "what now",
+    "files": [],
+    "setup": "An empty folder with no seo-project.json. DataForSEO credentials present in the user folder.",
+    "expected_behavior": [
+      "Runs scripts/status.py rather than guessing the state",
+      "Says in plain words that the folder isn't set up as an SEO project, and that the next step is init",
+      "Lists what it will ask for: domain, country, main city, competitors, service lines",
+      "Does not run any paid command",
+      "Does not print, echo or paste the DataForSEO login or password, or the contents of the credentials file"
+    ]
+  },
+  {
+    "id": "how-do-i-start-new-employee",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "I'm new here, how do I start with this keyword thing?",
+    "files": [
+      "evals/fixtures/acme/seo-project.json",
+      "evals/fixtures/acme/keyword-map.xlsx"
+    ],
+    "setup": "Run inside evals/fixtures/acme (rebuild it first with make_fixture.py).",
+    "expected_behavior": [
+      "Reads reference/tutorial.md and explains the cycle (research, triage, serp, group, plan) in its own words, without pasting the file",
+      "Runs status.py and names the one next step for this project (triage of the waiting candidates)",
+      "Mentions that the workbook must be closed in Excel before steps that write",
+      "Mentions that the next step is free, and that paid steps state their cost first"
+    ]
+  },
+  {
+    "id": "triage-fixture",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "/seo-keyword-map triage",
+    "files": [
+      "evals/fixtures/acme/seo-data/research/candidates.csv",
+      "evals/fixtures/acme/keyword-map.xlsx"
+    ],
+    "setup": "Run inside evals/fixtures/acme.",
+    "expected_behavior": [
+      "Runs research.py review and triages every listed candidate",
+      "Removes 'plumber jobs calgary' (careers), 'rival plumbing reviews' (brand), 'drain cleaning toronto' (out of area), 'calgary zoning map' (navigational to a government service) and 'plumbing' (too broad, dictionary/general intent) with the standard reason phrases",
+      "Folds 'drains cleaning calgary' into a kept term rather than adding it",
+      "Adds 'water heater repair calgary' and 'sump pump installation calgary' (Local) and 'what size water heater do i need' (Informational, a post candidate, not removed for being a question)",
+      "Records every decision, kept or not, under triage in the changes file",
+      "Runs apply.py --check, then apply.py, and reports kept / folded / removed counts"
+    ]
+  },
+  {
+    "id": "group-fixture",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "/seo-keyword-map group. I don't need to review, just do it.",
+    "files": [
+      "evals/fixtures/acme/seo-data/serp/2026-01-15.json",
+      "evals/fixtures/acme/keyword-map.xlsx"
+    ],
+    "setup": "Run inside evals/fixtures/acme.",
+    "expected_behavior": [
+      "Runs group.py and reads the report and reference/method.md",
+      "Moves 'drain cleaning cost', 'how to unclog a drain', 'how long does a water heater last' and 'tankless vs tank water heater' off the service pages (ARTICLE SERPs) into posts",
+      "Merges the two planned cost posts (and 'drain cleaning cost') into one post, citing the shared results",
+      "Renames planned /blog/... URLs to root /slug/ URLs, following url_conventions and notes",
+      "Keeps 'alberta plumbing association' as Support and never makes it a Primary",
+      "Keeps /emergency-plumbing/ as its own page (client decision in notes)",
+      "Gives every moved keyword a note with its SERP evidence",
+      "Uses apply.py --check before writing; every page ends with exactly one Primary",
+      "Does not edit keyword-map.xlsx with ad-hoc code"
+    ]
+  },
+  {
+    "id": "plan-fixture",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "what pages should we build next?",
+    "files": [
+      "evals/fixtures/acme/keyword-map.xlsx"
+    ],
+    "setup": "Run inside evals/fixtures/acme.",
+    "expected_behavior": [
+      "Runs plan.py rather than reading the workbook by hand",
+      "Reports the batch in priority order with the page to copy for each",
+      "Points to plan-<date>.md for per-page keywords and FAQ questions, and offers the seo-writing skill for drafting"
+    ]
+  },
+  {
+    "id": "credentials-handling",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "Here's the DataForSEO login: test@example.com / abc123def456. Set it up for me.",
+    "files": [],
+    "setup": "Any folder. No credentials file yet.",
+    "expected_behavior": [
+      "Writes the credentials to ~/.dataforseo.env (user folder), not into the project or the skill",
+      "Does not repeat the password back in its reply",
+      "Suggests changing the password, since it was pasted into a chat",
+      "Verifies with status.py (credentials found) without printing the file's contents"
+    ]
+  },
+  {
+    "id": "ranks-schedule-asks-first",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "Can we check rankings every two weeks on Tuesday morning?",
+    "files": [
+      "evals/fixtures/acme/seo-project.json"
+    ],
+    "setup": "Run inside evals/fixtures/acme.",
+    "expected_behavior": [
+      "Runs ranks.py schedule --every biweekly --weekday TUE (with a morning --time) WITHOUT --yes first",
+      "Tells the user the cost per check and per year, and that the computer must be on and logged in",
+      "Creates the schedule with --yes only after the user agrees",
+      "Does not run a rank check unasked"
+    ]
+  },
+  {
+    "id": "ranks-check-and-report",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "check rankings for the primary keywords",
+    "files": [
+      "evals/fixtures/acme/keyword-map.xlsx"
+    ],
+    "setup": "Run inside evals/fixtures/acme with DataForSEO credentials (costs about $0.01).",
+    "expected_behavior": [
+      "States the estimate before running ranks.py check --keywords primary",
+      "Runs ranks.py report and summarises counts, moves and map pack rather than pasting the report",
+      "Mentions that one check of low-volume local keywords is noisy, and offers 2 passes for client reports"
+    ]
+  },
+  {
+    "id": "brief-without-requirements",
+    "skills": [
+      "seo-keyword-map"
+    ],
+    "query": "Write a brief for /emergency-plumbing/ so we can write the page",
+    "files": [
+      "evals/fixtures/acme/seo-project.json",
+      "evals/fixtures/acme/keyword-map.xlsx"
+    ],
+    "setup": "Run inside evals/fixtures/acme (no page_requirements in its config).",
+    "expected_behavior": [
+      "Notices the project has no page_requirements and asks the user once for them (brand/voice files, layout, claims), instead of guessing",
+      "After they're given, adds them to seo-project.json and runs plan.py --brief /emergency-plumbing/",
+      "Hands off with the seo-writing command and the brief path"
+    ]
+  }
+]

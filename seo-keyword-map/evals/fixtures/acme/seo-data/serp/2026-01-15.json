@@ -1,0 +1,414 @@
+{
+ "_note": "Synthetic SERP data for evals.",
+ "date": "2026-01-15",
+ "domain": "acme-plumbing.ca",
+ "keywords": {
+  "plumbers calgary": {
+   "vol": 880,
+   "type": "SERVICE+local",
+   "mix": {
+    "svc": 0.3,
+    "home": 0.4,
+    "dir": 0.3
+   },
+   "urls": [
+    "firm0.example/",
+    "firm1.example/",
+    "firm2.example/",
+    "firm3.example/",
+    "firm4.example/",
+    "firm5.example/",
+    "yelp.ca/biz/p0",
+    "yelp.ca/biz/p1",
+    "yelp.ca/biz/p2",
+    "yelp.ca/biz/p3"
+   ],
+   "features": [
+    "local_pack"
+   ],
+   "related": [],
+   "paa": [
+    "Is plumbers calgary worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "plumbing services calgary": {
+   "vol": 210,
+   "type": "SERVICE+local",
+   "mix": {
+    "svc": 0.5,
+    "home": 0.4,
+    "dir": 0.1
+   },
+   "urls": [
+    "firm0.example/",
+    "firm1.example/",
+    "firm2.example/",
+    "firm3.example/",
+    "firm4.example/",
+    "firm5.example/",
+    "firm0.example/services/0",
+    "firm0.example/services/1",
+    "firm0.example/services/2",
+    "firm0.example/services/3"
+   ],
+   "features": [
+    "local_pack"
+   ],
+   "related": [],
+   "paa": [
+    "Is plumbing services calgary worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "calgary plumbing companies": {
+   "vol": 70,
+   "type": "SERVICE+local",
+   "mix": {
+    "svc": 0.3,
+    "home": 0.5,
+    "dir": 0.2
+   },
+   "urls": [
+    "firm0.example/",
+    "firm1.example/",
+    "firm2.example/",
+    "firm3.example/",
+    "firm4.example/",
+    "firm5.example/",
+    "homestars.com/c0",
+    "homestars.com/c1",
+    "homestars.com/c2"
+   ],
+   "features": [
+    "local_pack"
+   ],
+   "related": [],
+   "paa": [
+    "Is calgary plumbing companies worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "alberta plumbing association": {
+   "vol": 90,
+   "type": "DIRECTORY/ORG",
+   "mix": {
+    "org": 0.7,
+    "svc": 0.2,
+    "soc": 0.1
+   },
+   "urls": [
+    "alberta.ca/trades/0",
+    "alberta.ca/trades/1",
+    "alberta.ca/trades/2",
+    "alberta.ca/trades/3",
+    "alberta.ca/trades/4",
+    "linkedin.com/company/apa0",
+    "linkedin.com/company/apa1",
+    "linkedin.com/company/apa2"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is alberta plumbing association worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "drain cleaning": {
+   "vol": 480,
+   "type": "SERVICE+local",
+   "mix": {
+    "svc": 0.8,
+    "home": 0.1,
+    "dir": 0.1
+   },
+   "urls": [
+    "firm1.example/drain-cleaning0",
+    "firm1.example/drain-cleaning1",
+    "firm1.example/drain-cleaning2",
+    "firm1.example/drain-cleaning3",
+    "firm1.example/drain-cleaning4",
+    "firm1.example/drain-cleaning5",
+    "firm2.example/drains/0",
+    "firm2.example/drains/1",
+    "firm2.example/drains/2",
+    "firm2.example/drains/3"
+   ],
+   "features": [
+    "local_pack"
+   ],
+   "related": [],
+   "paa": [
+    "Is drain cleaning worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "drain cleaning cost": {
+   "vol": 320,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 0.8,
+    "svc": 0.1,
+    "soc": 0.1
+   },
+   "urls": [
+    "costguide.example/plumbing-cost-0",
+    "costguide.example/plumbing-cost-1",
+    "costguide.example/plumbing-cost-2",
+    "costguide.example/plumbing-cost-3",
+    "costguide.example/plumbing-cost-4",
+    "costguide.example/plumbing-cost-5",
+    "costguide.example/plumbing-cost-6",
+    "reddit.com/r/plumbing/c0",
+    "reddit.com/r/plumbing/c1",
+    "reddit.com/r/plumbing/c2"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is drain cleaning cost worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "how to unclog a drain": {
+   "vol": 260,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 0.7,
+    "soc": 0.3
+   },
+   "urls": [
+    "diy.example/how-to-unclog-0",
+    "diy.example/how-to-unclog-1",
+    "diy.example/how-to-unclog-2",
+    "diy.example/how-to-unclog-3",
+    "diy.example/how-to-unclog-4",
+    "diy.example/how-to-unclog-5",
+    "diy.example/how-to-unclog-6",
+    "youtube.com/watch?v=u0",
+    "youtube.com/watch?v=u1",
+    "youtube.com/watch?v=u2"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is how to unclog a drain worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "water heater installation": {
+   "vol": 390,
+   "type": "SERVICE+local",
+   "mix": {
+    "svc": 0.8,
+    "home": 0.2
+   },
+   "urls": [
+    "firm3.example/water-heaters/0",
+    "firm3.example/water-heaters/1",
+    "firm3.example/water-heaters/2",
+    "firm3.example/water-heaters/3",
+    "firm3.example/water-heaters/4",
+    "firm3.example/water-heaters/5",
+    "firm3.example/water-heaters/6",
+    "firm3.example/water-heaters/7",
+    "firm0.example/",
+    "firm1.example/"
+   ],
+   "features": [
+    "local_pack"
+   ],
+   "related": [],
+   "paa": [
+    "Is water heater installation worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "how long does a water heater last": {
+   "vol": 170,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 0.9,
+    "soc": 0.1
+   },
+   "urls": [
+    "energy.example/what-is-water-heater-life-0",
+    "energy.example/what-is-water-heater-life-1",
+    "energy.example/what-is-water-heater-life-2",
+    "energy.example/what-is-water-heater-life-3",
+    "energy.example/what-is-water-heater-life-4",
+    "energy.example/what-is-water-heater-life-5",
+    "energy.example/what-is-water-heater-life-6",
+    "energy.example/what-is-water-heater-life-7",
+    "energy.example/what-is-water-heater-life-8",
+    "reddit.com/r/hvac/x"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is how long does a water heater last worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "tankless vs tank water heater": {
+   "vol": 140,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 1.0
+   },
+   "urls": [
+    "compare.example/tankless-vs-tank-0",
+    "compare.example/tankless-vs-tank-1",
+    "compare.example/tankless-vs-tank-2",
+    "compare.example/tankless-vs-tank-3",
+    "compare.example/tankless-vs-tank-4",
+    "compare.example/tankless-vs-tank-5",
+    "compare.example/tankless-vs-tank-6",
+    "compare.example/tankless-vs-tank-7",
+    "compare.example/tankless-vs-tank-8",
+    "compare.example/tankless-vs-tank-9"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is tankless vs tank water heater worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "plumber cost": {
+   "vol": 210,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 0.9,
+    "dir": 0.1
+   },
+   "urls": [
+    "costguide.example/plumbing-cost-0",
+    "costguide.example/plumbing-cost-1",
+    "costguide.example/plumbing-cost-2",
+    "costguide.example/plumbing-cost-3",
+    "costguide.example/plumbing-cost-4",
+    "costguide.example/plumbing-cost-5",
+    "costguide.example/plumbing-cost-6",
+    "costguide.example/plumbing-cost-7",
+    "homeadvisor.com/cost/p0",
+    "homeadvisor.com/cost/p1"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is plumber cost worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "how much does a plumber charge": {
+   "vol": 170,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 0.9,
+    "soc": 0.1
+   },
+   "urls": [
+    "costguide.example/plumbing-cost-1",
+    "costguide.example/plumbing-cost-2",
+    "costguide.example/plumbing-cost-3",
+    "costguide.example/plumbing-cost-4",
+    "costguide.example/plumbing-cost-5",
+    "costguide.example/plumbing-cost-6",
+    "costguide.example/plumbing-cost-7",
+    "reddit.com/r/plumbing/q",
+    "costguide.example/x"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is how much does a plumber charge worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "drain cleaning price": {
+   "vol": 90,
+   "type": "ARTICLE",
+   "mix": {
+    "art": 0.9,
+    "soc": 0.1
+   },
+   "urls": [
+    "costguide.example/plumbing-cost-0",
+    "costguide.example/plumbing-cost-1",
+    "costguide.example/plumbing-cost-2",
+    "costguide.example/plumbing-cost-3",
+    "costguide.example/plumbing-cost-4",
+    "costguide.example/plumbing-cost-5",
+    "reddit.com/r/plumbing/p0",
+    "reddit.com/r/plumbing/p1",
+    "reddit.com/r/plumbing/p2",
+    "reddit.com/r/plumbing/p3"
+   ],
+   "features": [
+    "people_also_ask"
+   ],
+   "related": [],
+   "paa": [
+    "Is drain cleaning price worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  },
+  "emergency plumber calgary": {
+   "vol": 260,
+   "type": "SERVICE+local",
+   "mix": {
+    "svc": 0.5,
+    "home": 0.5
+   },
+   "urls": [
+    "firm0.example/",
+    "firm1.example/",
+    "firm2.example/",
+    "firm3.example/",
+    "firm4.example/",
+    "firm5.example/",
+    "firm4.example/emergency/0",
+    "firm4.example/emergency/1",
+    "firm4.example/emergency/2",
+    "firm4.example/emergency/3"
+   ],
+   "features": [
+    "local_pack"
+   ],
+   "related": [],
+   "paa": [
+    "Is emergency plumber calgary worth it?"
+   ],
+   "pg": [],
+   "passes": 2
+  }
+ }
+}
