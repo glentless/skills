@@ -17,6 +17,7 @@ replaces it.
 
 | Element | Pass when |
 |---|---|
+| Primary keyword | When a brief or the frontmatter (`primary_keyword`) declares one, it appears in the title, the meta description and the first 100 words. Use the exact phrase where it reads as English; where it doesn't (keyword-tool phrases like "survey boundary lines"), use the closest natural form that keeps its words, and put the exact phrase once in the body where a sentence can carry it. Name the form you chose on the outline |
 | Title tag | Specific to this page, about 60 chars or fewer, main topic near the front, matches the H1's intent, unique on the site |
 | Meta description | 70 to 160 chars, states what the reader gets, contains nothing that isn't on the page, unique |
 | H1 | Exactly one per page. In most static-site setups the theme renders the frontmatter `title` as the H1, so the body shouldn't add another |

@@ -74,6 +74,7 @@ STOPWORDS = EN_STOP | {"how", "what", "why", "your", "best", "guide", "vs", "an"
 UPDATED_KEYS = ("lastupdated", "last_updated", "updated", "lastmod", "datemodified",
                 "date_modified", "modified", "updatedat", "updated_at")
 DESC_KEYS = ("description", "summary", "excerpt", "meta_description", "metadescription", "seo_description")
+KEYWORD_KEYS = ("primary_keyword", "focus_keyword", "focus_keyphrase", "keyword")
 
 
 # ---------------------------------------------------------------- parsing
@@ -204,6 +205,14 @@ class Post:
     def description(self) -> str:
         return next((str(self.fm[k]) for k in DESC_KEYS if self.fm.get(k)), "")
 
+    def keyword(self) -> str:
+        return next((str(self.fm[k]).strip() for k in KEYWORD_KEYS if self.fm.get(k)), "")
+
+    def opening(self, n: int = 100) -> str:
+        """First n words of body text, in document order."""
+        text = " ".join(t for t, _ in sorted(self.paragraphs + self.items, key=lambda b: b[1] or 0))
+        return " ".join(text.split()[:n])
+
     def slug(self) -> str:
         if self.fm.get("slug"):
             return str(self.fm["slug"]).strip("/").split("/")[-1].lower()
@@ -231,6 +240,37 @@ class Post:
                     except ValueError:
                         return None
         return None
+
+
+def _kw_norm(text: str) -> str:
+    text = re.sub(r"['’]", "", text.lower())
+    return " ".join(re.findall(r"[^\W_]+", text))  # hyphens split: as-built == as built
+
+
+def _kw_stem(w: str) -> str:
+    return w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w
+
+
+def _kw_stems(text: str) -> set[str]:
+    return {_kw_stem(w) for w in _kw_norm(text).split() if w not in STOPWORDS}
+
+
+def keyword_match(keyword: str, text: str, near: bool = False) -> tuple[str, set[str]]:
+    """'exact' (phrase, ignoring case and hyphens), 'variant' (every content word, any order
+    or plural), 'partial' or 'missing'; plus the content words that are absent. With near,
+    a variant's words must fall within a few words of each other, as in body text."""
+    if re.search(rf"\b{re.escape(_kw_norm(keyword))}\b", _kw_norm(text)):
+        return "exact", set()
+    want = _kw_stems(keyword)
+    absent = want - _kw_stems(text)
+    if not absent and near:
+        words = [_kw_stem(w) for w in _kw_norm(text).split()]
+        span = len(_kw_norm(keyword).split()) + 3
+        if not any(want <= set(words[i:i + span]) for i in range(len(words))):
+            return "partial", set()
+    if not absent:
+        return "variant", set()
+    return ("partial" if absent != want else "missing"), absent
 
 
 # ---------------------------------------------------------------- metrics
@@ -294,6 +334,20 @@ def lint(post: Post, allow_em_dash: bool, banned: list[str]) -> dict:
         W(None, "no meta description (description/summary/excerpt)")
     elif not 70 <= len(desc) <= 170:
         W(None, f"description is {len(desc)} chars; 70-170 avoids truncation and thin snippets")
+
+    # Declared primary keyword: title, description, opening
+    kw = post.keyword()
+    if kw:
+        for where, text, near in (("title", title, False), ("description", desc, False),
+                                  ("first 100 words", post.opening(), True)):
+            if not text:
+                continue
+            match, absent = keyword_match(kw, text, near)
+            if match == "variant":
+                notes.append(f"primary keyword '{kw}' is in the {where} as a variant, not the exact phrase")
+            elif match != "exact":
+                W(None, f"primary keyword '{kw}' not in the {where}"
+                        + (f" (missing: {', '.join(sorted(absent))})" if absent and match == "partial" else ""))
     if fm and not fm.get("author") and not fm.get("authors"):
         W(None, "no author in frontmatter")
     published, updated = post.date(("date", "published", "pubdate", "publishdate", "datepublished")), post.date(UPDATED_KEYS)
@@ -486,7 +540,7 @@ def site(root: Path, args) -> dict:
                      "updated": r["facts"]["updated"] or r["facts"]["published"]})
     # Overlap candidates: same declared keyword, or similar title tokens
     overlaps = []
-    keyed = [(p, tokens(p.title() + " " + str(p.fm.get("keyword", p.fm.get("focus_keyword", ""))))) for p in posts]
+    keyed = [(p, tokens(p.title() + " " + p.keyword())) for p in posts]
     for i in range(len(keyed)):
         for j in range(i + 1, len(keyed)):
             (a, ta), (b, tb) = keyed[i], keyed[j]

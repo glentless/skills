@@ -94,8 +94,10 @@ source), say so at delivery, along with what you did instead.
    or BLOG.md already covers it.
 3. **Research** with a subagent ([research.md](reference/research.md)). The
    output is a source ledger, with a row for every fact the post will use.
-4. **Outline.** Present the brief and the H2 outline together, then wait for
-   approval. Skip the wait when the user said "just write it", or during
+4. **Outline.** Present the brief and the H2 outline together, with the title
+   and meta description. Name the primary keyword and the form it takes in each
+   ([seo.md](reference/seo.md), *Primary keyword*). Then wait for approval.
+   Skip the wait when the user said "just write it", or during
    `cluster execute`.
 5. **Draft** straight into the post file, following
    [writing.md](reference/writing.md) and the template. Answer first. Cite
@@ -191,7 +193,7 @@ way.
 
 | Script | Use |
 |---|---|
-| `scripts/check_post.py <files>` | Lint: structure, placeholders, unsourced numbers, alt text, links, dashes, filler phrases, dates, JSON-LD. Exits 1 on errors |
+| `scripts/check_post.py <files>` | Lint: structure, primary keyword in title, description and opening, placeholders, unsourced numbers, alt text, links, dashes, filler phrases, dates, JSON-LD. Exits 1 on errors |
 | `scripts/check_post.py --site <dir>` | Inventory: link graph, orphans, overlaps, staleness, tags, languages |
 | `scripts/check_post.py --voice <files>` | Voice metrics from sample posts |
 | `scripts/chart.py spec.json [--mdx\|--standalone]` | Accessible SVG charts that follow light and dark themes |
